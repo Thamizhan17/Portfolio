@@ -60,17 +60,18 @@ export default function Home() {
 
   emailjs
     .send(
-      "YOUR_SERVICE_ID",
-      "YOUR_TEMPLATE_ID",
+      "service_69t9kak",        // ✅ your service ID
+      "template_qhkeaff",       // ✅ your template ID
       {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
       },
-      "YOUR_PUBLIC_KEY"
+      "vjdC9PQQIZaSyud7O"        // ✅ your public key
     )
-    .then(() => {
+    .then((response) => {
+      console.log("SUCCESS!", response.status, response.text);
       setIsSubmitted(true);
       setFormData({
         name: "",
@@ -79,10 +80,12 @@ export default function Home() {
         message: "",
       });
     })
-    .catch((error: unknown) => {
+    .catch((error) => {
       console.error("EmailJS Error:", error);
     });
 };
+
+
 
 
 
