@@ -5,6 +5,8 @@ import { Badge } from '@/react-app/components/ui/badge';
 import { Input } from '@/react-app/components/ui/input';
 import { Textarea } from '@/react-app/components/ui/textarea';
 import { useState, useEffect } from 'react';
+import emailjs from "@emailjs/browser";
+
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -54,14 +56,35 @@ export default function Home() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 3000);
-  };
+  e.preventDefault();
+
+  emailjs
+    .send(
+      "YOUR_SERVICE_ID",
+      "YOUR_TEMPLATE_ID",
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      },
+      "YOUR_PUBLIC_KEY"
+    )
+    .then(() => {
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    })
+    .catch((error: unknown) => {
+      console.error("EmailJS Error:", error);
+    });
+};
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/40">
